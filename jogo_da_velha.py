@@ -104,7 +104,7 @@ def maxValor(tabuleiro):
         if len(acoes_permitidas) > 1:
             for acao in acoes_permitidas:
                 acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
-                if valor_retorno > valor_escolhido:
+                if valor_retorno >= valor_escolhido:
                     valor_escolhido = valor_retorno
                     acao_escolhida = acao_retorno
             return acao_escolhida, valor_escolhido
