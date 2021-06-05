@@ -96,42 +96,38 @@ def custo(tabuleiro):
         return -1
     return 0
 
-def maxValor(tabuleiro):
-    acao_escolhida = None
-    valor_escolhido = -1
-    acoes_permitidas = acoes(tabuleiro)
-    if final(tabuleiro) == False:
-        if len(acoes_permitidas) > 1:
-            for acao in acoes_permitidas:
-                acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
-                if valor_retorno >= valor_escolhido:
-                    valor_escolhido = valor_retorno
-                    acao_escolhida = acao_retorno
-            return acao_escolhida, valor_escolhido
 
-        else:
-            return acoes_permitidas[0], custo(resultado(tabuleiro,acoes_permitidas[0]))
+def maxValor(tabuleiro):
+    if final(tabuleiro) == False:
+        acao_escolhida = None
+        valor_escolhido = -2
+        acoes_permitidas = acoes(tabuleiro)
+        for acao in acoes_permitidas:
+            acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
+            if valor_retorno > valor_escolhido:
+                print("max ",valor_retorno , valor_escolhido, acao)
+                valor_escolhido = valor_retorno
+                acao_escolhida = acao_retorno
+        return acao_escolhida, valor_escolhido
     else:
-        return None, -2
+        return 2, custo(tabuleiro)
 
 def minValor(tabuleiro):
-    acao_escolhida = None
-    valor_escolhido = 1
-    acoes_permitidas = acoes(tabuleiro)
     if final(tabuleiro) == False:
-        if len(acoes_permitidas) > 1:
-            for acao in acoes_permitidas:
-                acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
-                if valor_retorno < valor_escolhido:
-                    valor_escolhido = valor_retorno
-                    acao_escolhida = acao_retorno
-                    print(acao_escolhida , acao_retorno)
-            return acao_escolhida, valor_escolhido
-
-        else:
-            return acoes_permitidas[0], custo(resultado(tabuleiro,acoes_permitidas[0]))
+        acao_escolhida = None
+        valor_escolhido = 2
+        acoes_permitidas = acoes(tabuleiro)
+        for acao in acoes_permitidas:
+            acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
+            if valor_retorno < valor_escolhido:
+                print("min ",valor_retorno , valor_escolhido, acao)
+                valor_escolhido = valor_retorno
+                acao_escolhida = acao
+        return acao_escolhida, valor_escolhido
     else:
-        return None, 2
+        return -2, custo(tabuleiro)
+
+
 
 def minimax(tabuleiro):
     player = jogador(tabuleiro)
@@ -147,5 +143,6 @@ def mostrarTabuleiro(tabuleiro):
             print(j,"|", end='')
         print()
         print("----------")
+
 tabuleiro = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
-a = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
+a = [['O',' ','X'],['X','X',' '],['O',' ',' ']]
