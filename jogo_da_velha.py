@@ -112,7 +112,7 @@ def maxValor(tabuleiro):
         else:
             return acoes_permitidas[0], custo(resultado(tabuleiro,acoes_permitidas[0]))
     else:
-        return None, -1
+        return None, -2
 
 def minValor(tabuleiro):
     acao_escolhida = None
@@ -122,24 +122,30 @@ def minValor(tabuleiro):
         if len(acoes_permitidas) > 1:
             for acao in acoes_permitidas:
                 acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
-                if valor_retorno <= valor_escolhido:
+                if valor_retorno < valor_escolhido:
                     valor_escolhido = valor_retorno
                     acao_escolhida = acao_retorno
+                    print(acao_escolhida , acao_retorno)
             return acao_escolhida, valor_escolhido
 
         else:
             return acoes_permitidas[0], custo(resultado(tabuleiro,acoes_permitidas[0]))
     else:
-        return None, 1
+        return None, 2
 
 def minimax(tabuleiro):
     player = jogador(tabuleiro)
     if player == 'X':
-        acao, valor = maxValor(tabuleiro)
-        return acao
+        return maxValor(tabuleiro)
     elif player == 'O':
-        acao, valor = minValor(tabuleiro)
-        return acao
+        return minValor(tabuleiro)
 
+def mostrarTabuleiro(tabuleiro):
+    for i in tabuleiro:
+        print("|", end='')
+        for j in i:
+            print(j,"|", end='')
+        print()
+        print("----------")
 tabuleiro = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
-a = [['X',' ',' '],[' ',' ',' '],[' ',' ',' ']]
+a = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
