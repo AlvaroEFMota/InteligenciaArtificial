@@ -1,3 +1,8 @@
+# Requisitos
+# Python 3.x
+
+import os # Used to clear the screen
+
 def jogador(tabuleiro):
     quantidade_x = 0
     quantidade_o = 0
@@ -105,7 +110,6 @@ def maxValor(tabuleiro):
         for acao in acoes_permitidas:
             acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
             if valor_retorno > valor_escolhido:
-                print("max ",valor_retorno , valor_escolhido, acao)
                 valor_escolhido = valor_retorno
                 acao_escolhida = acao_retorno
         return acao_escolhida, valor_escolhido
@@ -120,14 +124,11 @@ def minValor(tabuleiro):
         for acao in acoes_permitidas:
             acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
             if valor_retorno < valor_escolhido:
-                print("min ",valor_retorno , valor_escolhido, acao)
                 valor_escolhido = valor_retorno
                 acao_escolhida = acao
         return acao_escolhida, valor_escolhido
     else:
         return -2, custo(tabuleiro)
-
-
 
 def minimax(tabuleiro):
     player = jogador(tabuleiro)
@@ -144,5 +145,29 @@ def mostrarTabuleiro(tabuleiro):
         print()
         print("----------")
 
-tabuleiro = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
-a = [['O',' ','X'],['X','X',' '],['O',' ',' ']]
+
+
+
+def game():
+    tabuleiro = [[' ',' ',' '],[' ',' ',' '],[' ',' ',' ']]
+    player = input("Escolha a sua peça (o X sempre começa): Digite X ou O: ")
+    while(not final(tabuleiro)):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        mostrarTabuleiro(tabuleiro)
+        turno = jogador(tabuleiro)
+        if turno == player:
+            row = input("digite a linha:")
+            col = input("digite a coluna:")
+            tabuleiro[int(row)-1][int(col)-1] = turno
+        else:
+            acao, valor = minimax(tabuleiro)
+            row, col = acao
+            tabuleiro[row][col] = turno
+    os.system('cls' if os.name == 'nt' else 'clear')
+    mostrarTabuleiro(tabuleiro)
+    if custo(tabuleiro) == 1:
+        print('X é o ganhador!')
+    elif custo(tabuleiro) == -1:
+        print('O é o ganhador!')
+    else:
+        print('Empate!')
