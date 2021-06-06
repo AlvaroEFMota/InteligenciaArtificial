@@ -104,48 +104,59 @@ def custo(tabuleiro):
 
 def maxValor(tabuleiro):
     if final(tabuleiro) == False:
-        acao_escolhida = None
         valor_escolhido = -2
         acoes_permitidas = acoes(tabuleiro)
         for acao in acoes_permitidas:
-            acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
+            valor_retorno = minValor(resultado(tabuleiro, acao))
             if valor_retorno > valor_escolhido:
                 valor_escolhido = valor_retorno
-                acao_escolhida = acao_retorno
-        return acao_escolhida, valor_escolhido
+        return valor_escolhido
     else:
-        return 2, custo(tabuleiro)
+        return custo(tabuleiro)
 
 def minValor(tabuleiro):
     if final(tabuleiro) == False:
-        acao_escolhida = None
         valor_escolhido = 2
         acoes_permitidas = acoes(tabuleiro)
         for acao in acoes_permitidas:
-            acao_retorno, valor_retorno = minimax(resultado(tabuleiro, acao))
+            valor_retorno = maxValor(resultado(tabuleiro, acao))
             if valor_retorno < valor_escolhido:
                 valor_escolhido = valor_retorno
-                acao_escolhida = acao
-        return acao_escolhida, valor_escolhido
+        return valor_escolhido
     else:
-        return -2, custo(tabuleiro)
+        return custo(tabuleiro)
 
 def minimax(tabuleiro):
     player = jogador(tabuleiro)
     if player == 'X':
-        return maxValor(tabuleiro)
+        acao_escolhida = None
+        valor_escolhido = -2
+        for acao in acoes(tabuleiro):
+            valor_retorno = minValor(resultado(tabuleiro, acao))
+            if valor_retorno > valor_escolhido:
+                valor_escolhido = valor_retorno
+                acao_escolhida = acao
+        return acao_escolhida
     elif player == 'O':
-        return minValor(tabuleiro)
+        acao_escolhida = None
+        valor_escolhido = 2
+        for acao in acoes(tabuleiro):
+            valor_retorno = maxValor(resultado(tabuleiro, acao))
+            if valor_retorno < valor_escolhido:
+                valor_escolhido = valor_retorno
+                acao_escolhida = acao
+        return acao_escolhida
+
 
 def mostrarTabuleiro(tabuleiro):
-    for i in tabuleiro:
-        print("|", end='')
+    print("      1   2   3")
+    print()
+    for i_index, i in enumerate(tabuleiro):
+        print(i_index+1,"  | ", end='')
         for j in i:
-            print(j,"|", end='')
+            print(j,"| ", end='')
         print()
-        print("----------")
-
-
+        print("    -------------")
 
 
 def game():
@@ -160,7 +171,7 @@ def game():
             col = input("digite a coluna:")
             tabuleiro[int(row)-1][int(col)-1] = turno
         else:
-            acao, valor = minimax(tabuleiro)
+            acao = minimax(tabuleiro)
             row, col = acao
             tabuleiro[row][col] = turno
     os.system('cls' if os.name == 'nt' else 'clear')
