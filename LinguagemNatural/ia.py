@@ -2,8 +2,6 @@ from load_data import *
 from explore_data import *
 
 
-
-
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import f_classif
@@ -124,7 +122,7 @@ def mlp_model(layers, units, dropout_rate, input_shape, num_classes):
         model.add(Dense(units=units, activation='relu'))
         model.add(Dropout(rate=dropout_rate))
 
-    #model.add(Dense(units=op_units, activation=op_activation))
+    model.add(Dense(units=op_units, activation=op_activation))
     return model
 
 #m = mlp_model(1, 4, 0.1, (2,int(len(train_texts))), 2)
